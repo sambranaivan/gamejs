@@ -2,23 +2,30 @@
 Unit = Backbone.Model.extend(
 {
 	defaults:{
-		name:"no name",
-		atk:1,
-		def:1,
-		spd:1,
-		satk:1,
-		sdef:1,
-		hp:1,
+		name:"Default",
 		acc:0.9,
 		eva:0.5,
 	},
 	initialize:function(){
+		//bind events
+		var t = this
+		_.extend(t,this.get("hab"))
+
+
+		_.extend(t.attributes,this.get("stats"))
+
+
 		this.listenTo(Game,'begin',this.begin)
 		this.listenTo(Game,'end',this.end)
+
+
+		this.on("change:hp",function(event){
+			console.log(this.previous("hp")+"-->"+this.get("hp"))
+		})
 	},
 	//Atacker Events
 	begin:function(){
-		console.log(this.get("name") +'Game begin Triggered')
+		console.log(this.get("name") +' Game begin Triggered')
 	},
 	getTarget:function(){},
 	beforeAttack:function(){},
@@ -26,7 +33,7 @@ Unit = Backbone.Model.extend(
 	AfterAtackerDamageCalc:function(){},
 	afterAttack:function(){},
 	end:function(){
-			console.log(this.get("name") +'Game End Triggered')
+			console.log(this.get("name") +' Game End Triggered')
 	},
 
 	//Deffender Events
@@ -37,6 +44,14 @@ Unit = Backbone.Model.extend(
 	AfterDeffenderDamageCalc:function(){},
 	afterDefense:function(){},
 
+
+	////modifiers
+	hpUp:function(porc)
+	{
+		
+		this.set({hp:(this.get("stats").hp * (1+(porc/100)))})
+	}
+
 })
-var Attacker = new Unit({name:"Attacker"});
-var Deffender = new Unit({name:"Deffender"});
+var Attacker = new Unit(dex.vaporeon);
+var Deffender = new Unit(dex.default);
