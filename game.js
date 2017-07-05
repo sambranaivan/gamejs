@@ -4,13 +4,13 @@ GAME = Backbone.Model.extend({
 		critic:1,
 	},
 	initialize:function(){
-		console.log("game.init()")
+		//console.log("game.init()")
 	
 	},
 	begin:function()
 	{
 		// trigger global begins of anoter monsters
-		this.trigger("begin")		
+			
 	},
 	getAttacker:function(){
 

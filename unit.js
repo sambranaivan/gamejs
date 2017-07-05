@@ -1,5 +1,5 @@
 
-Unit = Backbone.Model.extend(
+UNIT = Backbone.Model.extend(
 {
 	defaults:{
 		name:"Default",
@@ -15,8 +15,8 @@ Unit = Backbone.Model.extend(
 		_.extend(t.attributes,this.get("stats"))
 
 
-		this.listenTo(Game,'begin',this.begin)
-		this.listenTo(Game,'end',this.end)
+		// this.listenTo(Game,'begin',this.begin)
+		// this.listenTo(Game,'end',this.end)
 
 
 		this.on("change:hp",function(event){
@@ -45,7 +45,7 @@ Unit = Backbone.Model.extend(
 	afterDefense:function(){},
 
 
-	////modifiers
+	////modifiers 
 	hpUp:function(porc)
 	{
 		
@@ -53,5 +53,19 @@ Unit = Backbone.Model.extend(
 	}
 
 })
-var Attacker = new Unit(dex.vaporeon);
-var Deffender = new Unit(dex.default);
+
+TEAM = Backbone.Collection.extend(
+	{
+		model:UNIT,
+		initialize:function () 
+		{
+			this.on("add",function(model){
+				console.log("add "+model.get("name")+" ")
+			})
+		}
+	})
+
+
+
+var Attacker = new UNIT(dex.vaporeon);
+var Deffender = new UNIT(dex.default);
