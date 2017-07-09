@@ -1,29 +1,37 @@
 
 Unit = Backbone.Model.extend(
 {
+///////////////////////DEfaults////////////////////A/////////////////////////A
 	defaults:{
-		name:"Default",
+		species:"Default",
 		acc:0.9,
 		eva:0.5,
+		lvl:0,
 	},
+/////////////////////////INITIALIZE/////////////////////////A
 	initialize:function(){
 		//bind events
+		//Aplicar Habilidades
 		var t = this
-		_.extend(t,this.get("hab"))
+		// _.extend(t,this.get("hab"))
+		//Aplicar Stats Originales
+		_.extend(t.attributes,this.get("baseStats"))
+		this.set({type:this.get("types")[0]});
 
-
-		_.extend(t.attributes,this.get("stats"))
-
-
-		this.listenTo(Game,'begin',this.begin)
-		this.listenTo(Game,'end',this.end)
-
-
+		//Event Listeners
 		this.on("change:hp",function(event){
 			console.log(this.previous("hp")+"-->"+this.get("hp"))
 		})
+
+		// console.log(this)
 	},
-	//Atacker Events
+
+//////////////////////////////GETTER Y SETTERS/////
+	getName:function(){
+		return this.get("species")
+	},
+
+/////////////////////////Atacker Events////////////////////////////////////
 	begin:function(){
 		console.log(this.get("name") +' Game begin Triggered')
 	},
@@ -36,7 +44,7 @@ Unit = Backbone.Model.extend(
 			console.log(this.get("name") +' Game End Triggered')
 	},
 
-	//Deffender Events
+/////////////////////////ADeffender Events/////////////////////////A
 	onSelected_as_target:function(){},
 	onSelected_for_target:function(){},
 	beforeDeffens:function(){},
@@ -44,8 +52,7 @@ Unit = Backbone.Model.extend(
 	AfterDeffenderDamageCalc:function(){},
 	afterDefense:function(){},
 
-
-	////modifiers
+///////////////////////////modifiers/////////////////////////A
 	hpUp:function(porc)
 	{
 		
@@ -53,5 +60,6 @@ Unit = Backbone.Model.extend(
 	}
 
 })
-var Attacker = new Unit(dex.vaporeon);
-var Deffender = new Unit(dex.default);
+
+
+

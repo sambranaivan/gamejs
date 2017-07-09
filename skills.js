@@ -21,3 +21,11 @@ skill.waterAbsorb =
 	}
 	///
 } 
+
+skill.pararrayos =
+{
+	onSelected_as_target()
+	{
+		if (this.team.filter({type:"thunder"})) {}
+	}
+}
