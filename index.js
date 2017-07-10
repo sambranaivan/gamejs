@@ -21,7 +21,7 @@ var enemy = new Player(
 			dex.totodile,
 			dex.treecko,
 			dex.blastoise,
-			dex.mew,
+			dex.pidgey,
 			dex.pichu]})
 
 var game = new GAME({player:jugador,enemy:enemy});
