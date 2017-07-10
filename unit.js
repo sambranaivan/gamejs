@@ -1,5 +1,5 @@
 
-Unit = Backbone.Model.extend(
+var Unit = Backbone.Model.extend(
 {
 ///////////////////////DEfaults////////////////////A/////////////////////////A
 	defaults:{
@@ -13,10 +13,22 @@ Unit = Backbone.Model.extend(
 		//bind events
 		//Aplicar Habilidades
 		var t = this
+
 		// _.extend(t,this.get("hab"))
 		//Aplicar Stats Originales
 		_.extend(t.attributes,this.get("baseStats"))
 		this.set({type:this.get("types")[0]})
+
+		// _.extend(t,this.get("hab"))
+
+
+		// _.extend(t.attributes,this.get("stats"))
+
+
+		// this.listenTo(Game,'begin',this.begin)
+		// this.listenTo(Game,'end',this.end)
+
+
 
 		//Event Listeners
 		this.on("change:hp",function(event){
@@ -89,6 +101,4 @@ Unit = Backbone.Model.extend(
 	}
 
 })
-
-
 

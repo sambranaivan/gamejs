@@ -3,7 +3,7 @@ GAME = Backbone.Model.extend({
 	defaults:{
 		critic:1,
 		atk_index:0,
-		round:1,
+		round:0,
 		turns:0,
 	},
 	initialize:function(){
@@ -32,10 +32,12 @@ GAME = Backbone.Model.extend({
 	},
 	begin:function()
 	{
-		// trigger global begins of anoter monsters
-		// this.trigger("begin")	
+	
 		this.set({round:this.get("round")+1})
 		log("ROUND "+this.get("round"),"white","black")
+			
+	},
+	getAttacker:function(){
 
 	},
 	setDefaultVariables:function()
