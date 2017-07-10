@@ -6,7 +6,9 @@ var Player =  Backbone.Model.extend({
 	{
 		
 					var team = new Team()
-					team.comparator = 'spe';
+					team.comparator = function(team) {
+						  return -team.get("spe"); 
+						};
 				for (var i = 0; i < this.get("equipo").length; i++) {
 					var u =  new Unit(this.get("equipo")[i]);
 					u.set({owner:this})
@@ -18,10 +20,16 @@ var Player =  Backbone.Model.extend({
 	},
 	isAlive:function(){
 		var team  = this.get("team");
-
-		team.each(function(model,index,list){
-
+		isAlive = false;
+		team.each(function(model,index,list)
+		{
+			if (model.get("hp")>0) {isAlive=true}
 		})
+		return isAlive;
+	},
+	setEnemy:function(Player)
+	{
+		this.set({enemy:Player})
 	}
 
 
@@ -34,24 +42,3 @@ var Team = Backbone.Collection.extend({
 
 })
 
-
-
-var jugador = new Player(
-	{equipo:[dex.pikachu,
-			dex.bulbasaur,
-			dex.charmander,
-			dex.squirtle,
-			dex.meowth,
-			dex.dratini]})
-
-var enemy = new Player(
-	{equipo:[dex.chikorita,
-			dex.totodile,
-			dex.treecko,
-			dex.blastoise,
-			dex.mew,
-			dex.pichu]})
-
-
-
-jugador.isAlive();

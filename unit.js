@@ -16,7 +16,7 @@ Unit = Backbone.Model.extend(
 		// _.extend(t,this.get("hab"))
 		//Aplicar Stats Originales
 		_.extend(t.attributes,this.get("baseStats"))
-		this.set({type:this.get("types")[0]});
+		this.set({type:this.get("types")[0]})
 
 		//Event Listeners
 		this.on("change:hp",function(event){
@@ -33,9 +33,20 @@ Unit = Backbone.Model.extend(
 
 /////////////////////////Atacker Events////////////////////////////////////
 	begin:function(){
-		console.log(this.get("name") +' Game begin Triggered')
+		// console.log(this.get("name") +' Game begin')
+		// this.getN
 	},
-	getTarget:function(){},
+	getTarget:function(){
+		///funcion que determina a cual enemigo atacar
+		equipo_enemigo = this.get("owner").get("enemy").get("team")
+		///por defecto usemos atacar al que tiene mas vida
+		equipo_enemigo.comparator = "hp"
+		equipo_enemigo.sort();
+		var target = equipo_enemigo.last()
+		log(this.getName()+" selecciona a "+target.getName()+" enemigo para ataque")
+		return target
+
+	},
 	beforeAttack:function(){},
 	BeforeAtackerDamageCalc:function(){},
 	AfterAtackerDamageCalc:function(){},
@@ -56,7 +67,25 @@ Unit = Backbone.Model.extend(
 	hpUp:function(porc)
 	{
 		
-		this.set({hp:(this.get("stats").hp * (1+(porc/100)))})
+		this.set({hp:(this.get("baseStats").hp * (1+(porc/100)))})
+	},
+	hpDmg:function(dmg)
+	{
+		log("Apply damage "+dmg)
+		if ((this.get("hp") < dmg)) {dmg = this.get("hp")}
+		this.set({hp:(this.get("hp") - dmg)})
+
+
+	},
+	isAlive:function()
+	{
+		if (this.get("hp")>0) {
+			return true
+		}
+		else
+		{
+			return false
+		}
 	}
 
 })
