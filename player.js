@@ -30,6 +30,30 @@ var Player =  Backbone.Model.extend({
 	setEnemy:function(Player)
 	{
 		this.set({enemy:Player})
+	},
+	show:function(msg)
+	{
+		log(msg,this.get("color"),this.get("bg"))
+	},
+	getTargets:function()
+	{
+		//FILTRO PARA QUE NO ELIGAN A UN MUERTO COMO TARGET
+		var filter = new Team();
+
+		this.get("enemy").get("team").each(function(model,index,list)
+		{
+			if (model.get("hp")>0) 
+			{
+				filter.add(model)
+			}
+		})
+		
+		return filter;
+
+	},
+	win:function()
+	{
+		// alert("end")
 	}
 
 

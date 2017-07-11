@@ -10,19 +10,22 @@ function log(msj,color,bg)
 
 var jugador = new Player(
 	{equipo:[dex.pikachu,
-			dex.bulbasaur,
-			dex.charmander,
-			dex.squirtle,
-			dex.meowth,
-			dex.dratini]})
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu]})
+
+jugador.set({bg:"blue",color:"white"})
 
 var enemy = new Player(
-	{equipo:[dex.chikorita,
-			dex.totodile,
-			dex.treecko,
-			dex.blastoise,
-			dex.pidgey,
-			dex.pichu]})
+	{equipo:[dex.pikachu,
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu,
+			dex.pikachu]})
+enemy.set({bg:"red",color:"white"})
 
 var game = new GAME({player:jugador,enemy:enemy});
 
@@ -38,18 +41,16 @@ while(game.isAlive())
 	game.sort();
 
 for (var i = 0; i < game.get("monsters").length; i++) {
-	// game.get("monsters")[i]
-
-
-	
+	if (game.isAlive()) 
+	{
 	atacante = game.getAttacker();
 	defensor = atacante.getTarget();
-	// console.log(defensor)
-	// defensor = defensor.onSelected_for_target();
-	game.battlePhase(atacante,defensor);
-
+	game.battlePhase(atacante,defensor);	
+	}
 	
 }
 // y = false;
 
 }
+		log("GAME END")
+

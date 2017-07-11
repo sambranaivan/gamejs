@@ -33,6 +33,14 @@ var Unit = Backbone.Model.extend(
 		//Event Listeners
 		this.on("change:hp",function(event){
 			console.log(this.previous("hp")+"-->"+this.get("hp"))
+			if(this.get("hp")<0)
+			{
+				if (!this.get("owner").isAlive()) 
+				{
+					this.get("owner").get("enemy").win();
+				}
+			}
+
 		})
 
 		// console.log(this)
@@ -50,12 +58,13 @@ var Unit = Backbone.Model.extend(
 	},
 	getTarget:function(){
 		///funcion que determina a cual enemigo atacar
-		equipo_enemigo = this.get("owner").get("enemy").get("team")
+		equipo_enemigo = this.get("owner").getTargets();
 		///por defecto usemos atacar al que tiene mas vida
 		equipo_enemigo.comparator = "hp"
 		equipo_enemigo.sort();
 		var target = equipo_enemigo.last()
-		log(this.getName()+" selecciona a "+target.getName()+" enemigo para ataque")
+		target.show("Deffender:")
+		// log(this.getName()+" selecciona a "+target.getName()+" enemigo para ataque")
 		return target
 
 	},
@@ -84,7 +93,6 @@ var Unit = Backbone.Model.extend(
 	hpDmg:function(dmg)
 	{
 		log("Apply damage "+dmg)
-		if ((this.get("hp") < dmg)) {dmg = this.get("hp")}
 		this.set({hp:(this.get("hp") - dmg)})
 
 
@@ -96,8 +104,13 @@ var Unit = Backbone.Model.extend(
 		}
 		else
 		{
+			log(this.getName()+" is Dead",this.get("owner").get("bg"))
 			return false
 		}
+	},
+	show:function(msg)
+	{
+		this.get("owner").show(msg+" "+this.getName()+" hp:"+this.get("hp"));
 	}
 
 })

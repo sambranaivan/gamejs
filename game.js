@@ -34,12 +34,10 @@ GAME = Backbone.Model.extend({
 	{
 	
 		this.set({round:this.get("round")+1})
-		log("ROUND "+this.get("round"),"white","black")
+		log("                       ROUND "+this.get("round")+"                    ","white","green")
 			
 	},
-	getAttacker:function(){
 
-	},
 	setDefaultVariables:function()
 	{
 
@@ -54,13 +52,25 @@ GAME = Backbone.Model.extend({
 	},
 	isAlive:function()
 	{
-		if (this.get("player").isAlive() & this.get("enemy").isAlive()) 
+		if (this.get("player").isAlive()) 
 		{
-			return true;
+			if (this.get("enemy").isAlive()) 
+			{
+				return true
+			}
+			else
+			{
+				//p1 Wins
+				log("PLAYER 1 WINS","white","black")
+				return false
+			}
+			
 		}
 		else
 		{
-			return false;
+			///enemy wins
+			log("                                   ENEMY WINS                                   ","white","black")
+			return false
 		}
 	},
 	sort:function()
@@ -77,20 +87,28 @@ GAME = Backbone.Model.extend({
 	{
 		this.set({turns:this.get("turns")+1})
 		log("Select Attacker "+this.get("atk_index"));
+
+		// filter = this.get("monsters").filter(function(monsters){
+		// 	return monsters.get(hp) >0;
+		// })
+
+
 		var atk = this.get("monsters").at(this.get("atk_index"));
 
-		
-		if (atk.get("owner") == this.get("player")) 
+		if (atk.isAlive()) 
 		{
-			log(atk.getName(),"blue")
+			atk.show("Attacker: ")
+			// atk.end();
+			this.nextAtk();
+			return atk;	
 		}
 		else
 		{
-			log(atk.getName(),"red")
+				this.nextAtk();
+			return this.getAttacker();
 		}
-		// atk.end();
-		this.nextAtk();
-		return atk;
+
+		
 
 	},
 	nextAtk:function(){
